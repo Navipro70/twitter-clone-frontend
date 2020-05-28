@@ -6,4 +6,12 @@ export type TPost = {
     userImage: string
 }
 
+export type token = {
+    token: string
+}
+
+export type error = {
+    general: string
+}
+
 export type ArrayOfTPosts = Array<TPost>

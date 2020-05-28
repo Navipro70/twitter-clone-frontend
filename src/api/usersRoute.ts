@@ -1,8 +1,5 @@
 import {axiosInstance} from './axiosInstance';
-
-type token = {
-    token: string
-}
+import {error, token} from "../types/types";
 
 type TLoginUser = {
     email: string
@@ -12,7 +9,7 @@ type TLoginUser = {
 export const usersRoute = {
     loginUser: (data: TLoginUser) => {
         return axiosInstance
-            .post<token>('login', data)
+            .post<token | error>('login', data)
             .then(res => res.data)
             .catch(err => {
                 console.error(err);
