@@ -7,11 +7,14 @@ export type TPost = {
 }
 
 export type token = {
-    token: string
+    token?: string
 }
 
 export type error = {
-    general: string
+    general?: string
+    confirmPassword?: string
+    handle?: string
+    email?: string
 }
 
 export type ArrayOfTPosts = Array<TPost>

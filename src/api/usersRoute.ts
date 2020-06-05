@@ -6,6 +6,11 @@ type TLoginUser = {
     password: string
 }
 
+type TSignUp = {
+    confirmPassword: string
+    handle: string
+}
+
 export const usersRoute = {
     loginUser: (data: TLoginUser) => {
         return axiosInstance
@@ -14,6 +19,15 @@ export const usersRoute = {
             .catch(err => {
                 console.error(err);
                 return err.response.data
+            })
+    },
+    signUpUser: (data: TSignUp & TLoginUser) => {
+        return axiosInstance
+            .post('signup', data)
+            .then(res => res.data)
+            .catch(err => {
+                console.error(err);
+                return err.response.data;
             })
     }
 };

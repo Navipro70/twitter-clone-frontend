@@ -5,35 +5,15 @@ import Paper from "@material-ui/core/Paper";
 import Icon from '../images/icon.svg';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from "@material-ui/core/Button";
-import {makeStyles} from "@material-ui/styles";
 import * as Yup from 'yup';
-import {FormikProps, useFormik} from "formik";
+import {useFormik} from "formik";
 import {ErrorMessage} from "../components/ErrorMessage";
 import {usersRoute} from "../api/usersRoute";
 import {error, token} from "../types/types";
 import {Link, useHistory} from "react-router-dom";
+import {useStyles} from "../App";
 
-type TFormik = {
-    email: string
-    password: string
-}
-
-const useStyles = makeStyles({
-    root: {
-        padding: '15px',
-        textAlign: 'center',
-    },
-    submitButton: {
-        position: 'relative',
-        marginTop: '15px',
-        marginBottom: '10px'
-    },
-    progress: {
-        position: 'absolute'
-    }
-});
-
-export const Login: FC<FormikProps<TFormik>> = () => {
+export const Login: FC = () => {
     const history = useHistory();
     const [loading, setLoading] = useState(false);
     const [generalError, setGeneralError] = useState<string>();
@@ -46,17 +26,19 @@ export const Login: FC<FormikProps<TFormik>> = () => {
             email: Yup.string().email().required('Email is required field'),
             password: Yup.string().min(5, 'Too short').required('Password is required field'),
         }),
-        onSubmit: async (values) => {
+        onSubmit: async (values, formikHelpers) => {
             setLoading(true);
-            let data: error | token;
+            let data: token | error;
             data = await usersRoute.loginUser(values);
             if ('general' in data) {
                 setLoading(false);
                 setGeneralError(data.general);
-            } else {
+            }
+            else if ('token' in data) {
                 setLoading(false);
+                const token = data.token; //User Token
+                localStorage.setItem('firebaseToken', token!);
                 history.push('/');
-                const token = data.token //User Token
             }
         }
     });

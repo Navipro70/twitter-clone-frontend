@@ -7,6 +7,8 @@ import {Home} from "./pages/Home";
 import {Login} from "./pages/Login";
 import {Signup} from "./pages/Signup";
 import {Navbar} from "./components/Navbar";
+import {makeStyles} from "@material-ui/styles";
+import jwtDecode from 'jwt-decode';
 
 const theme = createMuiTheme({
     palette: {
@@ -24,6 +26,34 @@ const theme = createMuiTheme({
         }
     }
 });
+
+export const useStyles = makeStyles({
+    root: {
+        padding: '15px',
+        textAlign: 'center',
+    },
+    submitButton: {
+        position: 'relative',
+        marginTop: '15px',
+        marginBottom: '10px'
+    },
+    progress: {
+        position: 'absolute'
+    }
+});
+
+const token = localStorage.getItem('firebaseToken');
+let authonticated: boolean;
+if (token) {
+    const decodedToken = jwtDecode(token);
+    // @ts-ignore
+    if (decodedToken.exp * 1000 < Date.now()) {
+        // window.location.href = '/login';
+        authonticated = false
+    } else {
+        authonticated = true;
+    }
+}
 
 const App = () => {
     return (

@@ -9,7 +9,7 @@ export const Home = () => {
     useEffect(() => {
         postsRoute.getAllPosts().then(posts => {
             setPosts(posts as ArrayOfTPosts);
-        });
+        })
     }, []);
     return (
         <Grid container spacing={8}>
