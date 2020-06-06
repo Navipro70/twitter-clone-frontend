@@ -1,15 +1,5 @@
 import {axiosInstance} from './axiosInstance';
-import {error, token} from "../types/types";
-
-type TLoginUser = {
-    email: string
-    password: string
-}
-
-type TSignUp = {
-    confirmPassword: string
-    handle: string
-}
+import {error, token, TLoginUser, TSignUp} from "../types/types";
 
 export const usersRoute = {
     loginUser: (data: TLoginUser) => {
@@ -21,7 +11,7 @@ export const usersRoute = {
                 return err.response.data
             })
     },
-    signUpUser: (data: TSignUp & TLoginUser) => {
+    signUpUser: (data: TSignUp) => {
         return axiosInstance
             .post('signup', data)
             .then(res => res.data)

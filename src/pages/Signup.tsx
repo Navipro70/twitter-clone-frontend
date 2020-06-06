@@ -1,20 +1,21 @@
-import React, {FC, useState} from "react";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import Paper from "@material-ui/core/Paper";
-import Icon from '../images/icon.svg';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Button from "@material-ui/core/Button";
-import * as Yup from 'yup';
-import {useFormik} from "formik";
-import {ErrorMessage} from "../components/ErrorMessage";
-import {usersRoute} from "../api/usersRoute";
-import {error, token} from "../types/types";
-import {Link, useHistory} from "react-router-dom";
-import {useStyles} from "../App";
+import React, {FC, useState} from "react"
+import Grid from "@material-ui/core/Grid"
+import TextField from "@material-ui/core/TextField"
+import Paper from "@material-ui/core/Paper"
+import Icon from '../images/icon.svg'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import Button from "@material-ui/core/Button"
+import * as Yup from 'yup'
+import {useFormik} from "formik"
+import {ErrorMessage} from "../components/ErrorMessage"
+import {Link, useHistory} from "react-router-dom"
+import {useStyles} from "../styles/styles"
+import {useDispatch} from "react-redux"
+import {thunkSignUp} from "../redux/user-reducer"
 
 export const Signup: FC = () => {
     const history = useHistory();
+    const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const [generalError, setGeneralError] = useState<string>();
     const formik = useFormik({
@@ -31,31 +32,7 @@ export const Signup: FC = () => {
             handle: Yup.string().trim().min(2, 'Too short').required('This is required field')
         }),
         onSubmit: async (values, formikHelpers) => {
-            setLoading(true);
-            let data: error | token;
-            data = await usersRoute.signUpUser(values);
-            if ('general' in data) {
-                setLoading(false);
-                setGeneralError(data.general);
-            }
-            else if ('confirmPassword' in data) {
-                setLoading(false);
-                formikHelpers.setFieldError('confirmPassword', data.confirmPassword!)
-            }
-            else if ('handle' in data) {
-                setLoading(false);
-                formikHelpers.setFieldError('handle', data.handle!)
-            }
-            else if ('email' in data) {
-                setLoading(false);
-                formikHelpers.setFieldError('email', data.email!)
-            }
-            else if ('token' in data) {
-                setLoading(false);
-                const token = data.token; //User Token
-                localStorage.setItem('firebaseToken', token!);
-                history.push('/');
-            }
+            dispatch(thunkSignUp(values, setLoading, setGeneralError, formikHelpers.setFieldError, history))
         }
     });
     const classes = useStyles();

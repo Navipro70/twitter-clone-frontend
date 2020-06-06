@@ -4,7 +4,7 @@ import {TPost} from "../types/types"
 import {postsRoute} from "../api/postsRoute"
 
 let initialState = {
-    posts: [] as [] | Array<TPost>
+    posts: null as null | Array<TPost>
 };
 
 type initialStateType = typeof initialState

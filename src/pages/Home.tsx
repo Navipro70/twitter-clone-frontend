@@ -3,14 +3,15 @@ import {Grid} from "@material-ui/core";
 import {Post} from "../components/Post";
 import {thunkAuthentication} from "../redux/posts-reducer";
 import {useDispatch, useSelector} from "react-redux";
+import {AppStateType} from "../redux/store";
 
 export const Home = () => {
     const dispatch = useDispatch();
-    // @ts-ignore
-    const posts = useSelector(state => state.postsPage.posts);
+    const posts = useSelector((state: AppStateType) => state.postsPage.posts);
     useEffect(() => {
         dispatch(thunkAuthentication())
-    }, []);
+    }, [dispatch]);
+
     return (
         <Grid container spacing={8}>
             <Grid item xs={12} sm={8}>

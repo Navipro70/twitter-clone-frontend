@@ -8,13 +8,14 @@ import Button from "@material-ui/core/Button";
 import * as Yup from 'yup';
 import {useFormik} from "formik";
 import {ErrorMessage} from "../components/ErrorMessage";
-import {usersRoute} from "../api/usersRoute";
-import {error, token} from "../types/types";
 import {Link, useHistory} from "react-router-dom";
-import {useStyles} from "../App";
+import {useStyles} from "../styles/styles";
+import {thunkLogin} from "../redux/user-reducer";
+import {useDispatch} from "react-redux";
 
 export const Login: FC = () => {
     const history = useHistory();
+    const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const [generalError, setGeneralError] = useState<string>();
     const formik = useFormik({
@@ -26,20 +27,8 @@ export const Login: FC = () => {
             email: Yup.string().email().required('Email is required field'),
             password: Yup.string().min(5, 'Too short').required('Password is required field'),
         }),
-        onSubmit: async (values, formikHelpers) => {
-            setLoading(true);
-            let data: token | error;
-            data = await usersRoute.loginUser(values);
-            if ('general' in data) {
-                setLoading(false);
-                setGeneralError(data.general);
-            }
-            else if ('token' in data) {
-                setLoading(false);
-                const token = data.token; //User Token
-                localStorage.setItem('firebaseToken', token!);
-                history.push('/');
-            }
+        onSubmit: (values) => {
+            dispatch(thunkLogin(values, setLoading, setGeneralError, history))
         }
     });
     const classes = useStyles();

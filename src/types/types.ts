@@ -7,7 +7,7 @@ export type TPost = {
 }
 
 export type token = {
-    token?: string
+    token: string
 }
 
 export type error = {
@@ -18,3 +18,13 @@ export type error = {
 }
 
 export type ArrayOfTPosts = Array<TPost>
+
+export type TLoginUser = {
+    email: string
+    password: string
+}
+
+export type TSignUp = {
+    confirmPassword: string
+    handle: string
+} & TLoginUser
