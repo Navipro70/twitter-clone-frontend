@@ -1,4 +1,6 @@
 import React from 'react';
+import {Provider} from 'react-redux';
+import store from './redux/store';
 import './App.css';
 import {MuiThemeProvider} from '@material-ui/core/styles';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
@@ -58,16 +60,18 @@ if (token) {
 const App = () => {
     return (
         <MuiThemeProvider theme={theme}>
-            <Router>
-                <Navbar/>
-                <div className="container">
-                    <Switch>
-                        <Route exact path="/" component={Home}/>
-                        <Route exact path="/login" component={Login}/>
-                        <Route exact path="/signup" component={Signup}/>
-                    </Switch>
-                </div>
-            </Router>
+            <Provider store={store}>
+                <Router>
+                    <Navbar/>
+                    <div className="container">
+                        <Switch>
+                            <Route exact path="/" component={Home}/>
+                            <Route exact path="/login" component={Login}/>
+                            <Route exact path="/signup" component={Signup}/>
+                        </Switch>
+                    </div>
+                </Router>
+            </Provider>
         </MuiThemeProvider>
     );
 };
