@@ -11,6 +11,7 @@ import {Navbar} from "./components/Navbar";
 import jwtDecode from 'jwt-decode';
 import {theme} from "./styles/styles";
 
+//TODO remove this check to redux and implement redux state
 const token = localStorage.getItem('firebaseToken');
 let authonticated: boolean;
 if (token) {

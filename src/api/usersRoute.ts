@@ -1,5 +1,12 @@
 import {axiosInstance} from './axiosInstance';
-import {error, token, TLoginUser, TSignUp} from "../types/types";
+import {error, token, TLoginUser, TSignUp, TArrayOfLikes, TCredentials} from "../types/types";
+
+//TODO REMOVE ANY
+type TAuthenticatedUserData = {
+    notifications: any
+    likes: TArrayOfLikes | []
+    credentials: TCredentials
+}
 
 export const usersRoute = {
     loginUser: (data: TLoginUser) => {
@@ -13,11 +20,15 @@ export const usersRoute = {
     },
     signUpUser: (data: TSignUp) => {
         return axiosInstance
-            .post('signup', data)
+            .post<token | error>('signup', data)
             .then(res => res.data)
             .catch(err => {
                 console.error(err);
                 return err.response.data;
             })
+    },
+    getAuthenticatedUserData: () => {
+        return axiosInstance.get<TAuthenticatedUserData>('user')
+            .then(res => res.data)
     }
 };

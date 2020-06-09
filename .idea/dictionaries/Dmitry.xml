@@ -6,6 +6,7 @@
       <w>formik</w>
       <w>navbar</w>
       <w>signup</w>
+      <w>unathenticated</w>
     </words>
   </dictionary>
 </component>
