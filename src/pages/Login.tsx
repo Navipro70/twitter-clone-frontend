@@ -8,13 +8,15 @@ import Button from "@material-ui/core/Button";
 import * as Yup from 'yup';
 import {useFormik} from "formik";
 import {ErrorMessage} from "../components/ErrorMessage";
-import {Link, useHistory} from "react-router-dom";
+import {Link, useHistory, Redirect} from "react-router-dom";
 import {useStyles} from "../styles/styles";
 import {thunkLogin} from "../redux/user-reducer";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStateType} from "../redux/store";
 
 export const Login: FC = () => {
     const history = useHistory();
+    let auth = useSelector((state: AppStateType) => state.usersPage.authenticated);
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const [generalError, setGeneralError] = useState<string>();
@@ -34,6 +36,7 @@ export const Login: FC = () => {
     const classes = useStyles();
     const {email: emailTouched, password: passwordTouched} = formik.touched;
     const {email: emailError, password: passwordError} = formik.errors;
+    if (auth) return <Redirect to='/' />;
     return (
         <Grid container justify="center" spacing={10}>
             <Grid item xs={12} sm={6}>

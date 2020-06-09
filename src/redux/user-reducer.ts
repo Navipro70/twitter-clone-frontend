@@ -12,7 +12,7 @@ let initialState = {
 };
 
 type initialStateType = typeof initialState
-type ActionType = InferActionsType<typeof actions>
+type ActionType = InferActionsType<typeof usersActions>
 
 export const userReducer = (state: initialStateType = initialState, action: ActionType): initialStateType => {
     switch (action.type) {
@@ -33,7 +33,7 @@ export const userReducer = (state: initialStateType = initialState, action: Acti
     }
 };
 
-const actions = {
+export const usersActions = {
     setAuthenticated: () => ({
         type: 'SET_AUTHENTICATED',
     } as const),
@@ -48,6 +48,8 @@ const actions = {
 
 export type ThunkActionType = ThunkAction<Promise<void>, AppStateType, unknown, ActionType>
 
+//------------AUTHORIZATION_THUNKS-----------------------------
+
 export const thunkLogin = (loginValues: TLoginUser,
                            setLoading: (bool: boolean) => void,
                            setGeneralError: (generalError: string) => void,
@@ -61,7 +63,7 @@ export const thunkLogin = (loginValues: TLoginUser,
         setGeneralError(data.general!);
     } else if ('token' in data) {
         setLoading(false);
-        dispatch(actions.setAuthenticated());
+        dispatch(usersActions.setAuthenticated());
         const token = data.token; //User Token
         localStorage.setItem('firebaseToken', token);
         axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -93,7 +95,7 @@ export const thunkSignUp = (values: TSignUp,
         setFieldError('email', data.email!)
     } else if ('token' in data) {
         setLoading(false);
-        dispatch(actions.setAuthenticated());
+        dispatch(usersActions.setAuthenticated());
         const token = data.token; //User Token
         localStorage.setItem('firebaseToken', token);
         await dispatch(thunkGetAuthenticatedUserData());
@@ -104,8 +106,15 @@ export const thunkSignUp = (values: TSignUp,
 export const thunkGetAuthenticatedUserData = (): ThunkActionType => async (dispatch) => {
     try {
         const data = await usersRoute.getAuthenticatedUserData();
-        dispatch(actions.setAuthenticatedUserData(data));
+        dispatch(usersActions.setAuthenticatedUserData(data));
     } catch (err) {
         console.error(err)
     }
 };
+
+export const thunkLogoutUser = (): ThunkActionType => async (dispatch) => {
+    dispatch(usersActions.setUnathenticated());
+    localStorage.removeItem('firebaseToken');
+};
+
+//---------------------------------------------------------------------
