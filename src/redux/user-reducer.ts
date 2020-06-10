@@ -1,12 +1,12 @@
 import {AppStateType, InferActionsType} from "./store";
 import {ThunkAction} from "redux-thunk";
-import {error, TLoginUser, token, TSignUp} from '../types/types'
+import {error, TCredentials, TLoginUser, token, TSignUp} from '../types/types'
 import {usersRoute} from "../api/usersRoute";
 import {axiosInstance} from "../api/axiosInstance";
 
 let initialState = {
     authenticated: false,
-    credentials: {},
+    credentials: {} as TCredentials,
     likes: [],
     notifications: []
 };

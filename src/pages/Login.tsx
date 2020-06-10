@@ -36,7 +36,7 @@ export const Login: FC = () => {
     const classes = useStyles();
     const {email: emailTouched, password: passwordTouched} = formik.touched;
     const {email: emailError, password: passwordError} = formik.errors;
-    if (auth) return <Redirect to='/' />;
+    if (auth) return <Redirect to='/'/>;
     return (
         <Grid container justify="center" spacing={10}>
             <Grid item xs={12} sm={6}>

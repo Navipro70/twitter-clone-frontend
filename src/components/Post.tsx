@@ -17,7 +17,7 @@ export const Post: FC<TProps> = ({post}) => {
     const {userHandle, userImage, postText, timestamp} = post;
     dayjs.extend(relativeTime);
     return (
-        <Card>
+        <Card style={{marginTop: '20px'}}>
             <CardHeader avatar={<Link to={`/user/${userHandle}`}><Avatar src={userImage}/></Link>}
                         title={<Link to={`/user/${userHandle}`} children={userHandle}/>}
                         subheader={dayjs(timestamp).fromNow()}/>

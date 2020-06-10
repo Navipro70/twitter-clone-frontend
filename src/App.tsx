@@ -16,7 +16,6 @@ const App = () => {
     useEffect(() => {
         if (token) {
             const decodedToken: any = jwtDecode(token);
-            console.log(decodedToken.exp * 1000 < Date.now());
             if (decodedToken.exp * 1000 < Date.now()) {
                 dispatch(thunkLogoutUser())
             } else {

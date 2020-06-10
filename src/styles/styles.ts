@@ -30,5 +30,24 @@ export const useStyles = makeStyles({
     },
     progress: {
         position: 'absolute'
+    },
+    profileBlock: {
+        marginTop: '20px',
+        minHeight: '47vh',
+        padding: '10px',
+        textAlign: 'center',
+        '& img': {
+            height: '150px',
+            borderRadius: '100%'
+        },
+        '& a': {
+            display: 'block',
+            fontSize: '20px',
+            color: '#33c9dc',
+        },
+        '& *': {
+            margin: '3px',
+            verticalAlign: 'middle',
+        }
     }
 });
