@@ -2,34 +2,43 @@ import React, {useEffect} from "react"
 import '../App.css'
 import {Grid} from "@material-ui/core"
 import {Post} from "../components/Post"
-import {thunkAuthentication} from "../redux/posts-reducer"
+import {thunkFetchPosts} from "../redux/posts-reducer"
 import {useDispatch, useSelector} from "react-redux"
 import {AppStateType} from "../redux/store"
 import {Profile} from "../components/Profile";
 import Paper from "@material-ui/core/Paper/Paper";
 import {useStyles} from "../styles/styles";
+import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 
 export const Home = () => {
     const dispatch = useDispatch();
     const classes = useStyles();
-    const posts = useSelector((state: AppStateType) => state.postsPage.posts);
+    const postsPage = useSelector((state: AppStateType) => state.postsPage);
+    const {fetchingPosts, posts} = postsPage;
     useEffect(() => {
-        dispatch(thunkAuthentication())
+        dispatch(thunkFetchPosts())
     }, [dispatch]);
+
     return (
         <Grid container spacing={8}>
             <Grid item xs={12} sm={8}>
                 {
-                    posts !== null
+                    fetchingPosts
                         ?
-                        posts.map((post: any) => <Post key={post.postId} post={post}/>)
+                        <CircularProgress size={30}/>
                         :
-                        <p>...Loading</p>
+                        posts.length !== 0
+                            ?
+                            posts.map(post => <Post key={post.postId} post={post}/>)
+                            :
+                            <Paper className={classes.profileBlock}>
+                                <h3>There is no posts here</h3>
+                            </Paper>
                 }
             </Grid>
             <Grid item xs={12} sm={4}>
                 <Paper className={classes.profileBlock}>
-                    <Profile />
+                    <Profile/>
                 </Paper>
             </Grid>
         </Grid>

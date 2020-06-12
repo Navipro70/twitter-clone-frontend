@@ -6,9 +6,5 @@ export const postsRoute = {
         return axiosInstance
             .get<ArrayOfTPosts>('posts')
             .then(res => res.data)
-            .catch(err => {
-                console.error(err);
-                return err
-            })
     }
 };

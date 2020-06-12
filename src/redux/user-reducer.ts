@@ -55,20 +55,24 @@ export const thunkLogin = (loginValues: TLoginUser,
                            setGeneralError: (generalError: string) => void,
                            history: any
 ): ThunkActionType => async (dispatch) => {
-    setLoading(true);
-    let data: token | error;
-    data = await usersRoute.loginUser(loginValues);
-    if ('general' in data) {
+    try {
+        setLoading(true);
+        let data: token | error;
+        data = await usersRoute.loginUser(loginValues);
+        if ('general' in data) {
+            setGeneralError(data.general!);
+        } else if ('token' in data) {
+            dispatch(usersActions.setAuthenticated());
+            const token = data.token; //User Token
+            localStorage.setItem('firebaseToken', token);
+            axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            await dispatch(thunkGetAuthenticatedUserData());
+            history.push('/');
+        }
+    } catch (err) {
+        console.error(err)
+    } finally {
         setLoading(false);
-        setGeneralError(data.general!);
-    } else if ('token' in data) {
-        setLoading(false);
-        dispatch(usersActions.setAuthenticated());
-        const token = data.token; //User Token
-        localStorage.setItem('firebaseToken', token);
-        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        await dispatch(thunkGetAuthenticatedUserData());
-        history.push('/');
     }
 };
 
@@ -78,28 +82,26 @@ export const thunkSignUp = (values: TSignUp,
                             setFieldError: (field: string, error: string) => void,
                             history: any
 ): ThunkActionType => async (dispatch) => {
-    setLoading(true);
-    let data: error | token;
-    data = await usersRoute.signUpUser(values);
-    if ('general' in data) {
+    try {
+        setLoading(true);
+        let data: error | token;
+        data = await usersRoute.signUpUser(values);
+        if ('general' in data) setGeneralError(data.general!);
+        else if ('confirmPassword' in data) setFieldError('confirmPassword', data.confirmPassword!);
+        else if ('handle' in data) setFieldError('handle', data.handle!);
+        else if ('email' in data) setFieldError('email', data.email!);
+        else if ('token' in data) {
+            dispatch(usersActions.setAuthenticated());
+            const token = data.token; //User Token
+            localStorage.setItem('firebaseToken', token);
+            await dispatch(thunkGetAuthenticatedUserData());
+            history.push('/');
+        }
+    } catch (err) {
+        console.error(err)
+    }
+    finally {
         setLoading(false);
-        setGeneralError(data.general!);
-    } else if ('confirmPassword' in data) {
-        setLoading(false);
-        setFieldError('confirmPassword', data.confirmPassword!)
-    } else if ('handle' in data) {
-        setLoading(false);
-        setFieldError('handle', data.handle!)
-    } else if ('email' in data) {
-        setLoading(false);
-        setFieldError('email', data.email!)
-    } else if ('token' in data) {
-        setLoading(false);
-        dispatch(usersActions.setAuthenticated());
-        const token = data.token; //User Token
-        localStorage.setItem('firebaseToken', token);
-        await dispatch(thunkGetAuthenticatedUserData());
-        history.push('/');
     }
 };
 
