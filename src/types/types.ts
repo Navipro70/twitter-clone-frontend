@@ -15,6 +15,7 @@ export type error = {
     confirmPassword?: string
     handle?: string
     email?: string
+    error?: string
 }
 
 export type ArrayOfTPosts = Array<TPost>

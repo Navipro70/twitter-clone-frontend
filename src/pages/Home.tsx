@@ -5,16 +5,20 @@ import {Post} from "../components/Post"
 import {thunkFetchPosts} from "../redux/posts-reducer"
 import {useDispatch, useSelector} from "react-redux"
 import {AppStateType} from "../redux/store"
-import {Profile} from "../components/Profile";
-import Paper from "@material-ui/core/Paper/Paper";
-import {useStyles} from "../styles/styles";
-import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
+import {Profile} from "../components/Profile"
+import Paper from "@material-ui/core/Paper/Paper"
+import {useStyles} from "../styles/styles"
+import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress"
+import {AddingPost} from "../components/AddingPost"
 
 export const Home = () => {
     const dispatch = useDispatch();
     const classes = useStyles();
-    const postsPage = useSelector((state: AppStateType) => state.postsPage);
-    const {fetchingPosts, posts} = postsPage;
+    const postsAndAuth = useSelector((state: AppStateType) => ({
+        postsPage: state.postsPage,
+        authenticated: state.usersPage.authenticated
+    }));
+    const {fetchingPosts, posts} = postsAndAuth.postsPage;
     useEffect(() => {
         dispatch(thunkFetchPosts())
     }, [dispatch]);
@@ -22,6 +26,7 @@ export const Home = () => {
     return (
         <Grid container spacing={8}>
             <Grid item xs={12} sm={8}>
+                {postsAndAuth.authenticated && <AddingPost/>}
                 {
                     fetchingPosts
                         ?
