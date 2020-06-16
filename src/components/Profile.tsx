@@ -1,12 +1,12 @@
-import React, {FC} from "react";
-import {TCredentials} from "../types/types";
-import {useSelector} from "react-redux";
-import {AppStateType} from "../redux/store";
-import {Link} from "react-router-dom";
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import LinkIcon from '@material-ui/icons/Link';
-import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
-import dayjs from "dayjs";
+import React, {FC} from "react"
+import {TCredentials} from "../types/types"
+import {useSelector} from "react-redux"
+import {AppStateType} from "../redux/store"
+import {Link} from "react-router-dom"
+import LocationOnIcon from '@material-ui/icons/LocationOn'
+import LinkIcon from '@material-ui/icons/Link'
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
+import dayjs from "dayjs"
 
 //TODO fix theme
 

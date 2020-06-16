@@ -1,6 +1,6 @@
 import React, {useEffect} from "react"
 import '../App.css'
-import {Grid} from "@material-ui/core"
+import Grid from "@material-ui/core/Grid"
 import {Post} from "../components/Post"
 import {thunkFetchPosts} from "../redux/posts-reducer"
 import {useDispatch, useSelector} from "react-redux"
