@@ -1,25 +1,31 @@
-import React, {FC, useState} from "react";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import Paper from "@material-ui/core/Paper";
-import Icon from '../images/icon.svg';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Button from "@material-ui/core/Button";
-import * as Yup from 'yup';
-import {useFormik} from "formik";
-import {ErrorMessage} from "../components/ErrorMessage";
-import {Link, useHistory, Redirect} from "react-router-dom";
-import {useStyles} from "../styles/styles";
-import {thunkLogin} from "../redux/user-reducer";
-import {useDispatch, useSelector} from "react-redux";
-import {AppStateType} from "../redux/store";
+import React, {FC} from "react"
+import {Link, useHistory, Redirect} from "react-router-dom"
+//MUI staff
+import Grid from "@material-ui/core/Grid"
+import TextField from "@material-ui/core/TextField"
+import Paper from "@material-ui/core/Paper"
+import Icon from '../images/icon.svg'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import Button from "@material-ui/core/Button"
+import {useStyles} from "../styles/styles"
+//Formik stuff
+import * as Yup from 'yup'
+import {useFormik} from "formik"
+import {ErrorMessage} from "../components/ErrorMessage"
+//Redux stuff with types
+import {thunkLogin} from "../redux/user-reducer"
+import {useDispatch, useSelector} from "react-redux"
+import {AppStateType} from "../redux/store"
 
 export const Login: FC = () => {
     const history = useHistory();
-    let auth = useSelector((state: AppStateType) => state.usersPage.authenticated);
+    let requireLoginData = useSelector((state: AppStateType) => ({
+        auth: state.usersPage.authenticated,
+        sendingData: state.usersPage.sendingData,
+        generalError: state.usersPage.generalError
+    }));
+    let {auth, sendingData, generalError} = requireLoginData;
     const dispatch = useDispatch();
-    const [loading, setLoading] = useState(false);
-    const [generalError, setGeneralError] = useState<string>();
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -30,7 +36,7 @@ export const Login: FC = () => {
             password: Yup.string().min(5, 'Too short').required('Password is required field'),
         }),
         onSubmit: (values) => {
-            dispatch(thunkLogin(values, setLoading, setGeneralError, history))
+            dispatch(thunkLogin(values, history))
         }
     });
     const classes = useStyles();
@@ -38,7 +44,7 @@ export const Login: FC = () => {
     const {email: emailError, password: passwordError} = formik.errors;
     if (auth) return <Redirect to='/'/>;
     return (
-        <Grid container justify="center" spacing={10}>
+        <Grid container justify="center" spacing={10} style={{margin: 0}}>
             <Grid item xs={12} sm={6}>
                 <Paper className={classes.root}>
                     <img style={{width: '50px', marginBottom: '-10px'}} src={Icon} alt="Icon"/>
@@ -73,8 +79,8 @@ export const Login: FC = () => {
                             <ErrorMessage error={generalError} touched={Boolean(passwordTouched && emailTouched)}/>
                         </div>
                         <div className={classes.submitButton}>
-                            <Button disabled={loading} type="submit" variant="contained" color="primary">
-                                Login {loading && <CircularProgress size={30} className={classes.progress}/>}
+                            <Button disabled={sendingData} type="submit" variant="contained" color="primary">
+                                Login {sendingData && <CircularProgress size={30} className={classes.progress}/>}
                             </Button>
                         </div>
                     </form>

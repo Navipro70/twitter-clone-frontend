@@ -6,6 +6,8 @@ import {axiosInstance} from "../api/axiosInstance";
 
 let initialState = {
     authenticated: false,
+    sendingData: false,
+    generalError: '' as string,
     credentials: {} as TCredentials,
     likes: [],
     notifications: []
@@ -28,6 +30,26 @@ export const userReducer = (state: initialStateType = initialState, action: Acti
                 authenticated: true,
                 ...action.payload
             };
+        case "SET_GENERAL_ERROR":
+            return {
+                ...state,
+                generalError: action.generalError
+            };
+        case "REMOVE_GENERAL_ERROR":
+            return {
+                ...state,
+                generalError: ''
+            };
+        case "START_SENDING_DATA":
+            return {
+                ...state,
+                sendingData: true
+            };
+        case "STOP_SENDING_DATA":
+            return {
+                ...state,
+                sendingData: false
+            };
         default:
             return {...state}
     }
@@ -43,6 +65,19 @@ export const usersActions = {
     setAuthenticatedUserData: (payload: any) => ({
         type: 'SET_AUTHENTICATED_USER_DATA',
         payload
+    } as const),
+    startSendingUserData: () => ({
+        type: 'START_SENDING_DATA'
+    } as const),
+    stopSendingUserData: () => ({
+        type: 'STOP_SENDING_DATA'
+    } as const),
+    setGeneralError: (generalError: string) => ({
+        type: 'SET_GENERAL_ERROR',
+        generalError
+    } as const),
+    removeGeneralError: () => ({
+        type: 'REMOVE_GENERAL_ERROR'
     } as const)
 };
 
@@ -50,17 +85,17 @@ export type ThunkActionType = ThunkAction<Promise<void>, AppStateType, unknown, 
 
 //------------AUTHORIZATION_THUNKS-----------------------------
 
-export const thunkLogin = (loginValues: TLoginUser,
-                           setLoading: (bool: boolean) => void,
-                           setGeneralError: (generalError: string) => void,
-                           history: any
+export const thunkLogin = (
+    loginValues: TLoginUser,
+    history: any
 ): ThunkActionType => async (dispatch) => {
     try {
-        setLoading(true);
+        dispatch(usersActions.startSendingUserData());
         let data: token | error;
         data = await usersRoute.loginUser(loginValues);
+        console.log(data)
         if ('general' in data) {
-            setGeneralError(data.general!);
+            dispatch(usersActions.setGeneralError(data.general!));
         } else if ('token' in data) {
             dispatch(usersActions.setAuthenticated());
             const token = data.token; //User Token
@@ -72,21 +107,21 @@ export const thunkLogin = (loginValues: TLoginUser,
     } catch (err) {
         console.error(err)
     } finally {
-        setLoading(false);
+        dispatch(usersActions.stopSendingUserData());
     }
 };
 
-export const thunkSignUp = (values: TSignUp,
-                            setLoading: (isLoading: boolean) => void,
-                            setGeneralError: (generalError: string) => void,
-                            setFieldError: (field: string, error: string) => void,
-                            history: any
+export const thunkSignUp = (
+    values: TSignUp,
+    setFieldError: (field: string, error: string) => void,
+    history: any
 ): ThunkActionType => async (dispatch) => {
     try {
-        setLoading(true);
+        dispatch(usersActions.startSendingUserData());
         let data: error | token;
         data = await usersRoute.signUpUser(values);
-        if ('general' in data) setGeneralError(data.general!);
+        console.log(data);
+        if ('general' in data) dispatch(usersActions.setGeneralError(data.general!));
         else if ('confirmPassword' in data) setFieldError('confirmPassword', data.confirmPassword!);
         else if ('handle' in data) setFieldError('handle', data.handle!);
         else if ('email' in data) setFieldError('email', data.email!);
@@ -99,9 +134,8 @@ export const thunkSignUp = (values: TSignUp,
         }
     } catch (err) {
         console.error(err)
-    }
-    finally {
-        setLoading(false);
+    } finally {
+        dispatch(usersActions.stopSendingUserData());
     }
 };
 

@@ -24,7 +24,12 @@ export const Home = () => {
     }, [dispatch]);
 
     return (
-        <Grid container spacing={8}>
+        <Grid container spacing={4} style={{margin: 0}}>
+            <Grid item xs={12} sm={4}>
+                <Paper className={classes.profileBlock}>
+                    <Profile/>
+                </Paper>
+            </Grid>
             <Grid item xs={12} sm={8}>
                 {postsAndAuth.authenticated && <AddingPost/>}
                 {
@@ -40,11 +45,6 @@ export const Home = () => {
                                 <h3>There is no posts here</h3>
                             </Paper>
                 }
-            </Grid>
-            <Grid item xs={12} sm={4}>
-                <Paper className={classes.profileBlock}>
-                    <Profile/>
-                </Paper>
             </Grid>
         </Grid>
     )
