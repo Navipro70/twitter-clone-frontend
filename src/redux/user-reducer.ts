@@ -7,6 +7,7 @@ import {axiosInstance} from "../api/axiosInstance";
 let initialState = {
     authenticated: false,
     sendingData: false,
+    fetchingProfile: false,
     generalError: '' as string,
     credentials: {} as TCredentials,
     likes: [],
@@ -24,9 +25,12 @@ export const userReducer = (state: initialStateType = initialState, action: Acti
                 authenticated: true
             };
         case "SET_UNAUTHENTICATED":
-            return initialState;
+            return {
+                ...initialState
+            };
         case "SET_AUTHENTICATED_USER_DATA":
             return {
+                ...state,
                 authenticated: true,
                 ...action.payload
             };
@@ -50,6 +54,16 @@ export const userReducer = (state: initialStateType = initialState, action: Acti
                 ...state,
                 sendingData: false
             };
+        case "START_FETCHING_PROFILE":
+            return {
+                ...state,
+                fetchingProfile: true
+            };
+        case "STOP_FETCHING_PROFILE":
+            return {
+                ...state,
+                fetchingProfile: false
+            }
         default:
             return {...state}
     }
@@ -78,6 +92,12 @@ export const usersActions = {
     } as const),
     removeGeneralError: () => ({
         type: 'REMOVE_GENERAL_ERROR'
+    } as const),
+    startFetchingProfile: () => ({
+        type: 'START_FETCHING_PROFILE'
+    } as const),
+    stopFetchingProfile: () => ({
+        type: 'STOP_FETCHING_PROFILE'
     } as const)
 };
 
@@ -93,11 +113,11 @@ export const thunkLogin = (
         dispatch(usersActions.startSendingUserData());
         let data: token | error;
         data = await usersRoute.loginUser(loginValues);
-        console.log(data)
         if ('general' in data) {
             dispatch(usersActions.setGeneralError(data.general!));
         } else if ('token' in data) {
             dispatch(usersActions.setAuthenticated());
+            dispatch(usersActions.removeGeneralError());
             const token = data.token; //User Token
             localStorage.setItem('firebaseToken', token);
             axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -120,7 +140,6 @@ export const thunkSignUp = (
         dispatch(usersActions.startSendingUserData());
         let data: error | token;
         data = await usersRoute.signUpUser(values);
-        console.log(data);
         if ('general' in data) dispatch(usersActions.setGeneralError(data.general!));
         else if ('confirmPassword' in data) setFieldError('confirmPassword', data.confirmPassword!);
         else if ('handle' in data) setFieldError('handle', data.handle!);
@@ -129,7 +148,9 @@ export const thunkSignUp = (
             dispatch(usersActions.setAuthenticated());
             const token = data.token; //User Token
             localStorage.setItem('firebaseToken', token);
+            axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             await dispatch(thunkGetAuthenticatedUserData());
+            dispatch(usersActions.removeGeneralError());
             history.push('/');
         }
     } catch (err) {
@@ -141,10 +162,13 @@ export const thunkSignUp = (
 
 export const thunkGetAuthenticatedUserData = (): ThunkActionType => async (dispatch) => {
     try {
+        dispatch(usersActions.startFetchingProfile());
         const data = await usersRoute.getAuthenticatedUserData();
         dispatch(usersActions.setAuthenticatedUserData(data));
     } catch (err) {
         console.error(err)
+    } finally {
+        dispatch(usersActions.stopFetchingProfile())
     }
 };
 

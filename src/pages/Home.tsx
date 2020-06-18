@@ -30,12 +30,12 @@ export const Home = () => {
                     <Profile/>
                 </Paper>
             </Grid>
-            <Grid item xs={12} sm={8}>
+            <Grid item xs={12} sm={8} justify='center'>
                 {postsAndAuth.authenticated && <AddingPost/>}
                 {
                     fetchingPosts
                         ?
-                        <CircularProgress size={30}/>
+                        <CircularProgress size={50}/>
                         :
                         posts.length !== 0
                             ?

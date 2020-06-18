@@ -1,5 +1,4 @@
 import React, {FC} from "react"
-import {TCredentials} from "../types/types"
 import {useSelector} from "react-redux"
 import {AppStateType} from "../redux/store"
 import {Link} from "react-router-dom"
@@ -7,11 +6,15 @@ import LocationOnIcon from '@material-ui/icons/LocationOn'
 import LinkIcon from '@material-ui/icons/Link'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
 import dayjs from "dayjs"
-
-//TODO fix theme
+import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 
 export const Profile: FC = () => {
-    const credentials: TCredentials = useSelector((state: AppStateType) => state.usersPage.credentials);
+    const profileData = useSelector((state: AppStateType) => ({
+        credentials: state.usersPage.credentials,
+        fetchingProfile: state.usersPage.fetchingProfile
+    }));
+    const {credentials, fetchingProfile} = profileData;
+    if (fetchingProfile) return <CircularProgress size={30}/>;
     if (JSON.stringify(credentials) === '{}') {
         return (
             <h3>Not logged yet? Go <Link to='/login'>there</Link></h3>
