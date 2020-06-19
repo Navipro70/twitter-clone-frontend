@@ -4,6 +4,8 @@ export type TPost = {
     timestamp: string
     userHandle: string
     userImage: string
+    commentCount?: number
+    likeCount?: number
 }
 
 export type token = {
