@@ -1,14 +1,25 @@
 import React, {FC} from "react"
+import "../App.css"
+import {Link} from "react-router-dom"
+// redux stuff
 import {useSelector} from "react-redux"
 import {AppStateType} from "../redux/store"
-import {Link} from "react-router-dom"
+//MUI stuff
 import LocationOnIcon from '@material-ui/icons/LocationOn'
 import LinkIcon from '@material-ui/icons/Link'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
+import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress"
+import Tooltip from '@material-ui/core/Tooltip'
+// dayjs stuff
 import dayjs from "dayjs"
-import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 
 export const Profile: FC = () => {
+    const handleUpload = (e: any) => {
+        const file = e.target.files[0];
+
+        const formData = new FormData();
+        formData.append('image', file, file.name)
+    };
     const profileData = useSelector((state: AppStateType) => ({
         credentials: state.usersPage.credentials,
         fetchingProfile: state.usersPage.fetchingProfile
@@ -22,7 +33,24 @@ export const Profile: FC = () => {
     }
     return (
         <>
-            <img src={credentials.imageUrl} alt="profile"/>
+            <div>
+                <input
+                    type="file"
+                    id="upload-image"
+                    style={{display: 'none'}}
+                    onChange={handleUpload}
+                />
+                <label htmlFor="upload-image">
+                <Tooltip title="Upload image">
+                        <img
+                            src={credentials.imageUrl}
+                            alt="profile"
+                            className={'profile-image-upload'}
+                        />
+                </Tooltip>
+                </label>
+
+            </div>
             <Link to={`/user/${credentials.handle}`}>{`@${credentials.handle}`}</Link>
             {credentials.bio &&
             <p>

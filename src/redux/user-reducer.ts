@@ -108,7 +108,7 @@ export type ThunkActionType = ThunkAction<Promise<void>, AppStateType, unknown, 
 export const thunkLogin = (
     loginValues: TLoginUser,
     history: any
-): ThunkActionType => async (dispatch) => {
+): ThunkActionType => async dispatch => {
     try {
         dispatch(usersActions.startSendingUserData());
         let data: token | error;
@@ -135,7 +135,7 @@ export const thunkSignUp = (
     values: TSignUp,
     setFieldError: (field: string, error: string) => void,
     history: any
-): ThunkActionType => async (dispatch) => {
+): ThunkActionType => async dispatch => {
     try {
         dispatch(usersActions.startSendingUserData());
         let data: error | token;
@@ -160,7 +160,7 @@ export const thunkSignUp = (
     }
 };
 
-export const thunkGetAuthenticatedUserData = (): ThunkActionType => async (dispatch) => {
+export const thunkGetAuthenticatedUserData = (): ThunkActionType => async dispatch => {
     try {
         dispatch(usersActions.startFetchingProfile());
         const data = await usersRoute.getAuthenticatedUserData();
@@ -172,9 +172,15 @@ export const thunkGetAuthenticatedUserData = (): ThunkActionType => async (dispa
     }
 };
 
-export const thunkLogoutUser = (): ThunkActionType => async (dispatch) => {
+export const thunkLogoutUser = (): ThunkActionType => async dispatch => {
     dispatch(usersActions.setUnathenticated());
     localStorage.removeItem('firebaseToken');
 };
 
 //---------------------------------------------------------------------
+
+//-------------------CHANGING-PROFILE-THUNKS---------------------------
+
+export const uploadImage = (): ThunkActionType => async dispatch => {
+
+};

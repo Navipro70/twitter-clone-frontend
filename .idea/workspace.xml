@@ -3,9 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="bd8229a8-53e9-474a-9c36-40ebb779d80f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Post.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Post.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/axiosInstance.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/axiosInstance.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/postsRoute.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/postsRoute.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/usersRoute.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/usersRoute.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile.tsx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -38,6 +40,9 @@
     <property name="ts.external.directory.path" value="D:\react-apps\twitter-clone-frontend\node_modules\typescript\lib" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\react-apps\twitter-clone-frontend\src\components" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\react-apps\twitter-clone-frontend\src\images" />
       <recent name="D:\react-apps\twitter-clone-frontend\public" />
@@ -108,7 +113,9 @@
       <workItem from="1592436717185" duration="2365000" />
       <workItem from="1592475402749" duration="6346000" />
       <workItem from="1592579803148" duration="1484000" />
-      <workItem from="1592584802794" duration="596000" />
+      <workItem from="1592584802794" duration="634000" />
+      <workItem from="1592602259856" duration="7344000" />
+      <workItem from="1592738748953" duration="5728000" />
     </task>
     <servers />
   </component>

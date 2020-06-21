@@ -1,4 +1,4 @@
-import {axiosInstance} from './axiosInstance';
+import {axiosInstance, defaultErrorHandler} from './axiosInstance';
 import {ArrayOfTPosts, error, TPost} from '../types/types';
 
 export const postsRoute = {
@@ -6,16 +6,12 @@ export const postsRoute = {
         return axiosInstance
             .get<ArrayOfTPosts>('posts')
             .then(res => res.data)
+            .catch(defaultErrorHandler)
     },
     createPost: (postText: string) => {
         return axiosInstance
             .post<TPost | error>('createPost', {postText})
-            .then(res => {
-                return res.data
-            })
-            .catch(err => {
-                console.error(err);
-                return err.response.data
-            })
+            .then(res => res.data)
+            .catch(defaultErrorHandler)
     },
 };

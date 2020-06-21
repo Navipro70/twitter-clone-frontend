@@ -20,3 +20,14 @@ a {
 .nav-container {
   margin: auto;
 }
+
+.profile-image-upload {
+  opacity: 1;
+  transition: .2s ease;
+  cursor: pointer;
+}
+
+.profile-image-upload:hover {
+  opacity: 0.7;
+  transition: .2s linear;
+}
