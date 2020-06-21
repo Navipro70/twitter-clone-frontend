@@ -22,7 +22,6 @@ export const Home = () => {
     useEffect(() => {
         dispatch(thunkFetchPosts())
     }, [dispatch]);
-
     return (
         <Grid container spacing={4} style={{margin: 0}}>
             <Grid item xs={12} sm={4}>
@@ -35,12 +34,7 @@ export const Home = () => {
                 {
                     fetchingPosts
                         ?
-                        <CircularProgress size={50} style={{
-                            display: 'block',
-                            marginTop: '30px',
-                            marginLeft: 'auto',
-                            marginRight: 'auto'
-                        }}/>
+                        <CircularProgress size={50} className={classes.homeProgress}/>
                         :
                         posts.length !== 0
                             ?

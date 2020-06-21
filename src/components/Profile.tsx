@@ -2,7 +2,7 @@ import React, {FC} from "react"
 import "../App.css"
 import {Link} from "react-router-dom"
 // redux stuff
-import {useSelector} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
 import {AppStateType} from "../redux/store"
 //MUI stuff
 import LocationOnIcon from '@material-ui/icons/LocationOn'
@@ -12,18 +12,22 @@ import CircularProgress from "@material-ui/core/CircularProgress/CircularProgres
 import Tooltip from '@material-ui/core/Tooltip'
 // dayjs stuff
 import dayjs from "dayjs"
-
+import {thunkUploadImage} from "../redux/user-reducer";
+//TODO Make UI for uploading image better
+//TODO Add error handler with Snackbar
+//TODO make refresh posts when upload image
 export const Profile: FC = () => {
-    const handleUpload = (e: any) => {
-        const file = e.target.files[0];
-
-        const formData = new FormData();
-        formData.append('image', file, file.name)
-    };
+    const dispatch = useDispatch();
     const profileData = useSelector((state: AppStateType) => ({
         credentials: state.usersPage.credentials,
         fetchingProfile: state.usersPage.fetchingProfile
     }));
+    const handleUpload = (e: any) => {
+        const file = e.target.files[0];
+        const formData = new FormData();
+        formData.append('image', file, file.name);
+        dispatch(thunkUploadImage(formData))
+    };
     const {credentials, fetchingProfile} = profileData;
     if (fetchingProfile) return <CircularProgress size={30}/>;
     if (JSON.stringify(credentials) === '{}') {

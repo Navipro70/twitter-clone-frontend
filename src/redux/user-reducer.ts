@@ -181,6 +181,11 @@ export const thunkLogoutUser = (): ThunkActionType => async dispatch => {
 
 //-------------------CHANGING-PROFILE-THUNKS---------------------------
 
-export const uploadImage = (): ThunkActionType => async dispatch => {
-
+export const thunkUploadImage = (formData: FormData): ThunkActionType => async dispatch => {
+    try {
+        await usersRoute.uploadImage(formData);
+        await dispatch(thunkGetAuthenticatedUserData())
+    } catch (err) {
+        console.log(err.response.data)
+    }
 };

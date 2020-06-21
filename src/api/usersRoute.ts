@@ -25,5 +25,8 @@ export const usersRoute = {
         return axiosInstance.get<TAuthenticatedUserData>('user')
             .then(res => res.data)
             .catch(defaultErrorHandler)
+    },
+    uploadImage: (formData: FormData) => {
+        return axiosInstance.post('/user/image', formData)
     }
 };

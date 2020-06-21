@@ -38,6 +38,7 @@ export const useStyles = makeStyles({
         textAlign: 'center',
         '& img': {
             height: '150px',
+            width: '150px',
             borderRadius: '100%'
         },
         '& a': {
@@ -49,5 +50,12 @@ export const useStyles = makeStyles({
             margin: '3px',
             verticalAlign: 'middle',
         }
-    }
+    },
+    homeProgress:
+        {
+            display: 'block',
+            marginTop: '30px',
+            marginLeft: 'auto',
+            marginRight: 'auto'
+        }
 });
