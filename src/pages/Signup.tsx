@@ -1,4 +1,4 @@
-import React, {FC} from "react"
+import React, {FC, useEffect} from "react"
 import {Link, Redirect, useHistory} from "react-router-dom"
 //MUI staff
 import Grid from "@material-ui/core/Grid"
@@ -14,7 +14,7 @@ import {useFormik} from "formik"
 import {ErrorMessage} from "../components/ErrorMessage"
 //Redux stuff with types
 import {useDispatch, useSelector} from "react-redux"
-import {thunkSignUp} from "../redux/user-reducer"
+import {thunkSignUp, usersActions} from "../redux/user-reducer"
 import {AppStateType} from "../redux/store"
 
 export const Signup: FC = () => {
@@ -26,6 +26,12 @@ export const Signup: FC = () => {
     }));
     let {auth, sendingData, generalError} = requireSignUpData;
     const dispatch = useDispatch();
+    const classes = useStyles();
+    useEffect(() => {
+        return () => {
+            dispatch(usersActions.removeGeneralError())
+        }
+    }, [dispatch]);
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -43,7 +49,6 @@ export const Signup: FC = () => {
             dispatch(thunkSignUp(values, formikHelpers.setFieldError, history))
         }
     });
-    const classes = useStyles();
     const {email: emailTouched, password: passwordTouched, confirmPassword: confirmPasswordTouched, handle: handleTouched} = formik.touched;
     const {email: emailError, password: passwordError, confirmPassword: confirmPasswordError, handle: handleError} = formik.errors;
     if (auth) return <Redirect to='/'/>;

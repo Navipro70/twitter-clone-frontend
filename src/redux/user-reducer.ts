@@ -63,7 +63,7 @@ export const userReducer = (state: initialStateType = initialState, action: Acti
             return {
                 ...state,
                 fetchingProfile: false
-            }
+            };
         default:
             return {...state}
     }
@@ -186,6 +186,7 @@ export const thunkUploadImage = (formData: FormData): ThunkActionType => async d
         await usersRoute.uploadImage(formData);
         await dispatch(thunkGetAuthenticatedUserData())
     } catch (err) {
-        console.log(err.response.data)
+        console.error(err);
+        dispatch(usersActions.setGeneralError(err.response.data.error))
     }
 };

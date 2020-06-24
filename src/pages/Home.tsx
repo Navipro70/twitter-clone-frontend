@@ -10,17 +10,22 @@ import Paper from "@material-ui/core/Paper/Paper"
 import {useStyles} from "../styles/styles"
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress"
 import {AddingPost} from "../components/AddingPost"
+import {CustomSnackbar} from "../components/CustomSnackbar";
 
 export const Home = () => {
     const dispatch = useDispatch();
     const classes = useStyles();
     const postsAndAuth = useSelector((state: AppStateType) => ({
         postsPage: state.postsPage,
-        authenticated: state.usersPage.authenticated
+        usersPage: {
+            authenticated: state.usersPage.authenticated,
+            generalError: state.usersPage.generalError
+        }
     }));
     const {fetchingPosts, posts} = postsAndAuth.postsPage;
+    const {authenticated, generalError} = postsAndAuth.usersPage;
     useEffect(() => {
-        dispatch(thunkFetchPosts())
+        dispatch(thunkFetchPosts());
     }, [dispatch]);
     return (
         <Grid container spacing={4} style={{margin: 0}}>
@@ -30,7 +35,7 @@ export const Home = () => {
                 </Paper>
             </Grid>
             <Grid item xs={12} sm={8}>
-                {postsAndAuth.authenticated && <AddingPost/>}
+                {authenticated && <AddingPost/>}
                 {
                     fetchingPosts
                         ?
@@ -45,6 +50,7 @@ export const Home = () => {
                             </Paper>
                 }
             </Grid>
+            {generalError && <CustomSnackbar message={generalError} />}
         </Grid>
     )
 };
