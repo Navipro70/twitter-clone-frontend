@@ -184,7 +184,7 @@ export const thunkLogoutUser = (): ThunkActionType => async dispatch => {
 export const thunkUploadImage = (formData: FormData): ThunkActionType => async dispatch => {
     try {
         await usersRoute.uploadImage(formData);
-        await dispatch(thunkGetAuthenticatedUserData())
+        await dispatch(thunkGetAuthenticatedUserData());
     } catch (err) {
         console.error(err);
         dispatch(usersActions.setGeneralError(err.response.data.error))

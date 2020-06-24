@@ -1,5 +1,5 @@
-import React, {FC, useEffect} from "react"
-import {Link, useHistory, Redirect} from "react-router-dom"
+import React, {FC} from "react"
+import {Link, Redirect} from "react-router-dom"
 //MUI staff
 import Grid from "@material-ui/core/Grid"
 import TextField from "@material-ui/core/TextField"
@@ -13,19 +13,12 @@ import * as Yup from 'yup'
 import {useFormik} from "formik"
 import {ErrorMessage} from "../components/ErrorMessage"
 //Redux stuff with types
-import {thunkLogin, usersActions} from "../redux/user-reducer"
-import {useDispatch, useSelector} from "react-redux"
-import {AppStateType} from "../redux/store"
+import {thunkLogin} from "../redux/user-reducer"
+import {useCommonForm} from "../hooks/useCommonForm";
 
 export const Login: FC = () => {
-    const history = useHistory();
-    let requireLoginData = useSelector((state: AppStateType) => ({
-        auth: state.usersPage.authenticated,
-        sendingData: state.usersPage.sendingData,
-        generalError: state.usersPage.generalError
-    }));
-    let {auth, sendingData, generalError} = requireLoginData;
-    const dispatch = useDispatch();
+    const [history, auth, sendingData, generalError, dispatch] = useCommonForm();
+    const classes = useStyles();
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -39,12 +32,6 @@ export const Login: FC = () => {
             dispatch(thunkLogin(values, history))
         }
     });
-    const classes = useStyles();
-    useEffect(() => {
-        return () => {
-            dispatch(usersActions.removeGeneralError())
-        }
-    }, [dispatch]);
     const {email: emailTouched, password: passwordTouched} = formik.touched;
     const {email: emailError, password: passwordError} = formik.errors;
     if (auth) return <Redirect to='/'/>;

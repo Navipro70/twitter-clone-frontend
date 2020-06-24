@@ -1,5 +1,5 @@
-import React, {FC, useEffect} from "react"
-import {Link, Redirect, useHistory} from "react-router-dom"
+import React, {FC} from "react"
+import {Link, Redirect} from "react-router-dom"
 //MUI staff
 import Grid from "@material-ui/core/Grid"
 import TextField from "@material-ui/core/TextField"
@@ -13,25 +13,12 @@ import * as Yup from 'yup'
 import {useFormik} from "formik"
 import {ErrorMessage} from "../components/ErrorMessage"
 //Redux stuff with types
-import {useDispatch, useSelector} from "react-redux"
-import {thunkSignUp, usersActions} from "../redux/user-reducer"
-import {AppStateType} from "../redux/store"
+import {thunkSignUp} from "../redux/user-reducer"
+import {useCommonForm} from "../hooks/useCommonForm";
 
 export const Signup: FC = () => {
-    const history = useHistory();
-    let requireSignUpData = useSelector((state: AppStateType) => ({
-        auth: state.usersPage.authenticated,
-        sendingData: state.usersPage.sendingData,
-        generalError: state.usersPage.generalError
-    }));
-    let {auth, sendingData, generalError} = requireSignUpData;
-    const dispatch = useDispatch();
+    const [history, auth, sendingData, generalError, dispatch] = useCommonForm();
     const classes = useStyles();
-    useEffect(() => {
-        return () => {
-            dispatch(usersActions.removeGeneralError())
-        }
-    }, [dispatch]);
     const formik = useFormik({
         initialValues: {
             email: '',

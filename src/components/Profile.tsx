@@ -13,9 +13,6 @@ import Tooltip from '@material-ui/core/Tooltip'
 // dayjs stuff
 import dayjs from "dayjs"
 import {thunkUploadImage} from "../redux/user-reducer";
-//TODO Make UI for uploading image better
-//TODO Add error handler with Snackbar
-//TODO make refresh posts when upload image
 export const Profile: FC = () => {
     const dispatch = useDispatch();
     const profileData = useSelector((state: AppStateType) => ({
@@ -26,7 +23,7 @@ export const Profile: FC = () => {
         const file = e.target.files[0];
         const formData = new FormData();
         formData.append('image', file, file.name);
-        dispatch(thunkUploadImage(formData))
+        dispatch(thunkUploadImage(formData));
     };
     const {credentials, fetchingProfile} = profileData;
     if (fetchingProfile) return <CircularProgress size={30}/>;
