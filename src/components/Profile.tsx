@@ -10,9 +10,12 @@ import LinkIcon from '@material-ui/icons/Link'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress"
 import Tooltip from '@material-ui/core/Tooltip'
+import IconButton from '@material-ui/core/IconButton'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import EditIcon from '@material-ui/icons/Edit';
 // dayjs stuff
 import dayjs from "dayjs"
-import {thunkUploadImage} from "../redux/user-reducer";
+import {thunkLogoutUser, thunkUploadImage} from "../redux/user-reducer";
 export const Profile: FC = () => {
     const dispatch = useDispatch();
     const profileData = useSelector((state: AppStateType) => ({
@@ -24,6 +27,9 @@ export const Profile: FC = () => {
         const formData = new FormData();
         formData.append('image', file, file.name);
         dispatch(thunkUploadImage(formData));
+    };
+    const handleLogout = () => {
+        dispatch(thunkLogoutUser())
     };
     const {credentials, fetchingProfile} = profileData;
     if (fetchingProfile) return <CircularProgress size={30}/>;
@@ -42,21 +48,24 @@ export const Profile: FC = () => {
                     onChange={handleUpload}
                 />
                 <label htmlFor="upload-image">
-                <Tooltip title="Upload image">
+                    <Tooltip title="Upload image">
                         <img
                             src={credentials.imageUrl}
                             alt="profile"
                             className={'profile-image-upload'}
                         />
-                </Tooltip>
+                    </Tooltip>
                 </label>
-
             </div>
-            <Link to={`/user/${credentials.handle}`}>{`@${credentials.handle}`}</Link>
-            {credentials.bio &&
-            <p>
-                {credentials.bio}
-            </p>}
+            <div>
+                <Link to={`/user/${credentials.handle}`}>{`@${credentials.handle}`}</Link>
+            </div>
+            <div>
+                {credentials.bio &&
+                <p>
+                    {credentials.bio}
+                </p>}
+            </div>
             {credentials.location &&
             <div>
                 <LocationOnIcon color='primary'/>
@@ -65,13 +74,26 @@ export const Profile: FC = () => {
             {credentials.website &&
             <div>
                 <LinkIcon color='primary'/>
-                <a href={credentials.website}
-                   style={{fontSize: '15px', display: 'inline-block'}}>{credentials.website}</a>
+                <a href={credentials.website}>
+                    {credentials.website}
+                </a>
             </div>
             }
             <div>
                 <CalendarTodayIcon color='primary'/>
                 <span>Joined at {dayjs(credentials.timestamp).format('MMM YYYY')}</span>
+            </div>
+            <div className="edit-and-logout">
+                <Tooltip title='Change profile'>
+                    <IconButton>
+                        <EditIcon/>
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title='Logout'>
+                    <IconButton onClick={handleLogout}>
+                        <ExitToAppIcon/>
+                    </IconButton>
+                </Tooltip>
             </div>
         </>
     )

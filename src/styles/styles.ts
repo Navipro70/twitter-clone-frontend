@@ -42,13 +42,16 @@ export const useStyles = makeStyles({
             borderRadius: '100%'
         },
         '& a': {
-            display: 'block',
-            fontSize: '20px',
-            color: '#33c9dc',
+            color: '#33c9dc'
         },
         '& *': {
-            margin: '3px',
             verticalAlign: 'middle',
+        },
+        '& p': {
+            margin: 0
+        },
+        '& div': {
+            margin: '5px 0'
         }
     },
     homeProgress:

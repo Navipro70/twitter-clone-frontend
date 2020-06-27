@@ -21,6 +21,10 @@ a {
   margin: auto;
 }
 
+.nav-container a {
+  margin: 0 20px;
+}
+
 .profile-image-upload {
   opacity: 1;
   transition: .2s ease;
@@ -30,4 +34,9 @@ a {
 .profile-image-upload:hover {
   opacity: 0.7;
   transition: .2s linear;
+}
+
+.edit-and-logout {
+  display: flex;
+  justify-content: space-around;
 }
