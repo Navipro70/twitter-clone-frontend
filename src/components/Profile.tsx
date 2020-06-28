@@ -1,4 +1,4 @@
-import React, {FC} from "react"
+import React, {FC, useState} from "react"
 import "../App.css"
 import {Link} from "react-router-dom"
 // redux stuff
@@ -16,12 +16,16 @@ import EditIcon from '@material-ui/icons/Edit';
 // dayjs stuff
 import dayjs from "dayjs"
 import {thunkLogoutUser, thunkUploadImage} from "../redux/user-reducer";
+import {EditProfileModal} from "./EditProfileModal";
 export const Profile: FC = () => {
     const dispatch = useDispatch();
     const profileData = useSelector((state: AppStateType) => ({
         credentials: state.usersPage.credentials,
         fetchingProfile: state.usersPage.fetchingProfile
     }));
+    const [openModal, setOpenModal] = useState(false);
+    const handleCloseModal = () => setOpenModal(false);
+    const handleOpenModal = () => setOpenModal(true);
     const handleUpload = (e: any) => {
         const file = e.target.files[0];
         const formData = new FormData();
@@ -85,7 +89,7 @@ export const Profile: FC = () => {
             </div>
             <div className="edit-and-logout">
                 <Tooltip title='Change profile'>
-                    <IconButton>
+                    <IconButton onClick={handleOpenModal}>
                         <EditIcon/>
                     </IconButton>
                 </Tooltip>
@@ -95,6 +99,7 @@ export const Profile: FC = () => {
                     </IconButton>
                 </Tooltip>
             </div>
+            <EditProfileModal open={openModal} handleClose={handleCloseModal} />
         </>
     )
 };

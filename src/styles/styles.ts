@@ -45,7 +45,7 @@ export const useStyles = makeStyles({
             color: '#33c9dc'
         },
         '& *': {
-            verticalAlign: 'middle',
+            verticalAlign: 'middle'
         },
         '& p': {
             margin: 0
@@ -54,11 +54,20 @@ export const useStyles = makeStyles({
             margin: '5px 0'
         }
     },
-    homeProgress:
-        {
+    homeProgress: {
             display: 'block',
             marginTop: '30px',
             marginLeft: 'auto',
             marginRight: 'auto'
-        }
+    },
+    modalStyle: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    paperStyle: {
+        minHeight: '300px',
+        minWidth: '300px',
+        outline: 0
+    }
 });
