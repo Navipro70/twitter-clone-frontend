@@ -67,7 +67,24 @@ export const useStyles = makeStyles({
     },
     paperStyle: {
         minHeight: '300px',
-        minWidth: '300px',
+        minWidth: '320px',
         outline: 0
+    },
+    modalForm: {
+        marginTop: '20px',
+        textAlign: 'center',
+        '& .MuiTextField-root': {
+            display: 'flex',
+            width: '250px',
+            margin: '0 auto',
+            marginTop: '10px'
+        },
+        '& button': {
+            marginTop: '20px'
+        },
+        '& h4': {
+            marginTop: '15px',
+            marginBottom: 0
+        }
     }
 });

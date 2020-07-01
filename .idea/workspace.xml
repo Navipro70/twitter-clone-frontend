@@ -5,7 +5,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/EditProfileModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/EditProfileModal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/styles/styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/styles.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -121,7 +120,8 @@
       <workItem from="1592954843734" duration="2495000" />
       <workItem from="1593001290420" duration="4521000" />
       <workItem from="1593266301402" duration="3588000" />
-      <workItem from="1593339838560" duration="2415000" />
+      <workItem from="1593339838560" duration="3455000" />
+      <workItem from="1593608891087" duration="3415000" />
     </task>
     <servers />
   </component>
