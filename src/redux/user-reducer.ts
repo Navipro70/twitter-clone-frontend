@@ -1,6 +1,6 @@
 import {AppStateType, InferActionsType} from "./store";
 import {ThunkAction} from "redux-thunk";
-import {error, TCredentials, TLoginUser, token, TSignUp} from '../types/types'
+import {error, TCredentials, TLoginUser, token, TSignUp, TUserDetails} from '../types/types'
 import {usersRoute} from "../api/usersRoute";
 import {axiosInstance} from "../api/axiosInstance";
 
@@ -8,6 +8,7 @@ let initialState = {
     authenticated: false,
     sendingData: false,
     fetchingProfile: false,
+    postingUserDetails: false,
     generalError: '' as string,
     credentials: {} as TCredentials,
     likes: [],
@@ -64,6 +65,16 @@ export const userReducer = (state: initialStateType = initialState, action: Acti
                 ...state,
                 fetchingProfile: false
             };
+        case "START_POSTING_USER_DETAILS":
+            return {
+                ...state,
+                postingUserDetails: true
+            };
+        case "STOP_POSTING_USER_DETAILS":
+            return {
+                ...state,
+                postingUserDetails: false
+            };
         default:
             return {...state}
     }
@@ -98,6 +109,12 @@ export const usersActions = {
     } as const),
     stopFetchingProfile: () => ({
         type: 'STOP_FETCHING_PROFILE'
+    } as const),
+    starPostingUserDetails: () => ({
+        type: 'START_POSTING_USER_DETAILS'
+    } as const),
+    stopPostingUserDetails: () => ({
+        type: 'STOP_POSTING_USER_DETAILS'
     } as const)
 };
 
@@ -188,5 +205,19 @@ export const thunkUploadImage = (formData: FormData): ThunkActionType => async d
     } catch (err) {
         console.error(err);
         dispatch(usersActions.setGeneralError(err.response.data.error))
+    }
+};
+
+export const thunkAddUserDetails = (userDetails: TUserDetails, handleClose: () => void):ThunkActionType => async dispatch => {
+    try {
+        dispatch(usersActions.starPostingUserDetails());
+        await usersRoute.addUserDetails(userDetails);
+        handleClose();
+        await dispatch(thunkGetAuthenticatedUserData())
+    } catch (err) {
+        console.error(err);
+        dispatch(usersActions.setGeneralError(err.response.data.error))
+    } finally {
+        dispatch(usersActions.stopPostingUserDetails());
     }
 };

@@ -1,5 +1,5 @@
 import {axiosInstance, defaultErrorHandler} from './axiosInstance'
-import {error, token, TLoginUser, TSignUp, TArrayOfLikes, TCredentials} from "../types/types"
+import {error, token, TLoginUser, TSignUp, TArrayOfLikes, TCredentials, TUserDetails} from "../types/types"
 
 //TODO REMOVE ANY
 type TAuthenticatedUserData = {
@@ -28,5 +28,11 @@ export const usersRoute = {
     },
     uploadImage: (formData: FormData) => {
         return axiosInstance.post('/user/image', formData)
+            .catch(err => console.error(err))
+    },
+    addUserDetails: (values: TUserDetails) => {
+        return axiosInstance.post('/user', values)
+            .then(res => res.data.message)
+            .catch(defaultErrorHandler)
     }
 };

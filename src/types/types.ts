@@ -38,10 +38,7 @@ export type TCredentials = {
     timestamp: string
     imageUrl: string
     handle: string
-    location?: string
-    website?: string
-    bio?: string
-}
+} & TUserDetails
 
 export type TLike = {
     postId: string
@@ -52,9 +49,14 @@ export type TArrayOfLikes = Array<TLike>
 
 //TODO Add type for notifications
 //TODO Remove all no needed rerendering in components
-// Fix circular progress in fetching posts
 
 // export type TNotifications = {
 //     postId: string
 //
 // }
+
+export type TUserDetails = {
+    bio?: string
+    website?: string
+    location?: string
+}
