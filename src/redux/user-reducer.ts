@@ -1,6 +1,15 @@
 import {AppStateType, InferActionsType} from "./store";
 import {ThunkAction} from "redux-thunk";
-import {error, TCredentials, TLoginUser, token, TSignUp, TUserDetails} from '../types/types'
+import {
+    error,
+    TArrayOfLikes,
+    TArrayOfNotifications,
+    TCredentials,
+    TLoginUser,
+    token,
+    TSignUp,
+    TUserDetails
+} from '../types/types'
 import {usersRoute} from "../api/usersRoute";
 import {axiosInstance} from "../api/axiosInstance";
 
@@ -11,8 +20,8 @@ let initialState = {
     postingUserDetails: false,
     generalError: '' as string,
     credentials: {} as TCredentials,
-    likes: [],
-    notifications: []
+    likes: [] as TArrayOfLikes,
+    notifications: [] as TArrayOfNotifications
 };
 
 type initialStateType = typeof initialState

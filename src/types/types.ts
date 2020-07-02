@@ -46,14 +46,18 @@ export type TLike = {
 }
 
 export type TArrayOfLikes = Array<TLike>
+export type TArrayOfNotifications = Array<TNotifications>
 
-//TODO Add type for notifications
 //TODO Remove all no needed rerendering in components
 
-// export type TNotifications = {
-//     postId: string
-//
-// }
+type TNotifications = {
+    postId: string
+    read: boolean
+    recipient: string
+    sender: string
+    timestamp: string
+    type: string
+}
 
 export type TUserDetails = {
     bio?: string

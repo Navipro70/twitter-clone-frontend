@@ -29,16 +29,23 @@ export const EditProfileModal: FC<IProps> = ({open, handleClose}) => {
             location: ''
         },
         validationSchema: Yup.object().shape({
-            bio: Yup.string().min(2, 'Too short').max(300, 'Too long'),
-            website: Yup.string().min(2, 'Too short').max(300, 'Too long'),
-            location: Yup.string().min(2, 'Too short').max(300, 'Too long')
+            bio: Yup.string()
+                .min(2, 'Too short')
+                .max(300, 'Too long'),
+            website: Yup.string()
+                .min(2, 'Too short')
+                .max(300, 'Too long'),
+            location: Yup.string()
+                .min(2, 'Too short')
+                .max(300, 'Too long')
         }),
         onSubmit: async (values) => {
             dispatch(thunkAddUserDetails(values, handleClose))
         }
     });
     const {bio: bioError, website: websiteError, location: locationError} = formik.errors;
-    const {bio: bioTouched, website: websiteTouched, location: locationTouched} = formik.errors;
+    const {bio: bioTouched, website: websiteTouched, location: locationTouched} = formik.touched;
+    const {bio, website, location} = formik.values;
     const setFieldUntouched = (field: string) => () => formik.setFieldTouched(field, false);
     return (
         <Modal
@@ -59,9 +66,9 @@ export const EditProfileModal: FC<IProps> = ({open, handleClose}) => {
                         <h4>Add information about you</h4>
                         <TextField
                             label="Bio"
-                            name="bio"
+                            name='bio'
                             onChange={formik.handleChange}
-                            value={formik.values.bio}
+                            value={bio}
                             helperText={Boolean(bioTouched && bioError) ? bioError : ''}
                             error={Boolean(bioTouched && bioError)}
                             onFocus={setFieldUntouched('bio')}
@@ -69,9 +76,9 @@ export const EditProfileModal: FC<IProps> = ({open, handleClose}) => {
                         />
                         <TextField
                             label="Website"
-                            name="website"
+                            name='website'
                             onChange={formik.handleChange}
-                            value={formik.values.website}
+                            value={website}
                             helperText={Boolean(websiteTouched && websiteError) ? websiteError : ''}
                             error={Boolean(websiteTouched && websiteError)}
                             onFocus={setFieldUntouched('website')}
@@ -79,9 +86,9 @@ export const EditProfileModal: FC<IProps> = ({open, handleClose}) => {
                         />
                         <TextField
                             label="Location"
-                            name="location"
+                            name='location'
                             onChange={formik.handleChange}
-                            value={formik.values.location}
+                            value={location}
                             helperText={Boolean(locationTouched && locationError) ? locationError : ''}
                             error={Boolean(locationTouched && locationError)}
                             onFocus={setFieldUntouched('location')}
@@ -91,7 +98,7 @@ export const EditProfileModal: FC<IProps> = ({open, handleClose}) => {
                             variant="contained"
                             color="primary"
                             type='submit'
-                            disabled={sendingUserDetails}
+                            disabled={sendingUserDetails || !Boolean(location || bio || website)}
                         >
                             Change {sendingUserDetails && <CircularProgress size={30} className={classes.progress}/>}
                         </Button>

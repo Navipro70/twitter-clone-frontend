@@ -1,9 +1,17 @@
 import {axiosInstance, defaultErrorHandler} from './axiosInstance'
-import {error, token, TLoginUser, TSignUp, TArrayOfLikes, TCredentials, TUserDetails} from "../types/types"
+import {
+    error,
+    token,
+    TLoginUser,
+    TSignUp,
+    TArrayOfLikes,
+    TCredentials,
+    TUserDetails,
+    TArrayOfNotifications
+} from "../types/types"
 
-//TODO REMOVE ANY
 type TAuthenticatedUserData = {
-    notifications: any
+    notifications: TArrayOfNotifications | []
     likes: TArrayOfLikes | []
     credentials: TCredentials
 }
@@ -31,7 +39,7 @@ export const usersRoute = {
             .catch(err => console.error(err))
     },
     addUserDetails: (values: TUserDetails) => {
-        return axiosInstance.post('/user', values)
+        return axiosInstance.post<{message: 'string'}>('/user', values)
             .then(res => res.data.message)
             .catch(defaultErrorHandler)
     }

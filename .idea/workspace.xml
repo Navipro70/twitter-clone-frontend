@@ -39,12 +39,12 @@
     <property name="ts.external.directory.path" value="D:\react-apps\twitter-clone-frontend\node_modules\typescript\lib" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\react-apps\twitter-clone-frontend\src\components" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\react-apps\twitter-clone-frontend\src\images" />
       <recent name="D:\react-apps\twitter-clone-frontend\public" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\react-apps\twitter-clone-frontend\src\components" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -123,7 +123,8 @@
       <workItem from="1593266301402" duration="3588000" />
       <workItem from="1593339838560" duration="3455000" />
       <workItem from="1593608891087" duration="5089000" />
-      <workItem from="1593617570404" duration="4112000" />
+      <workItem from="1593617570404" duration="4288000" />
+      <workItem from="1593703156099" duration="2915000" />
     </task>
     <servers />
   </component>
